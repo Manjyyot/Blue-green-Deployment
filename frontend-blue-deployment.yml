@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-blue
+  labels:
+    app: frontend-blue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-blue
+  template:
+    metadata:
+      labels:
+        app: frontend-blue
+    spec:
+      containers:
+        - name: frontend-blue
+          image: iammanjyyot/blue-green-deployment_frontend-blue:latest
+          ports:
+            - containerPort: 3100
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-blue-service
+spec:
+  selector:
+    app: frontend-blue
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 3100
+      targetPort: 3100

@@ -1,0 +1,30 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb+srv://newuser16:TaTNQipC9ZXLEj6b@travelbackend.qyczv.mongodb.net/?retryWrites=true&w=majority&appName=Travelbackend
+    depends_on:
+      - mongo
+
+  frontend-blue:
+    build: ./frontend-blue
+    ports:
+      - "3100:3100"
+    depends_on:
+      - backend
+
+  frontend-green:
+    build: ./frontend-green
+    ports:
+      - "3200:3200"
+    depends_on:
+      - backend
